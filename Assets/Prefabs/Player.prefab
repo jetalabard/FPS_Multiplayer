@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 240328408379157391}
   - component: {fileID: 240328408379157388}
   - component: {fileID: 240328408379157389}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 240328408631535938}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,9 +128,11 @@ GameObject:
   - component: {fileID: -4878049212353512326}
   - component: {fileID: 1944808208995251076}
   - component: {fileID: 5972325179269711313}
-  m_Layer: 0
+  - component: {fileID: 2580521769124343220}
+  - component: {fileID: 7671820510072707472}
+  m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -262,6 +264,8 @@ MonoBehaviour:
   - {fileID: 240328408775715020}
   - {fileID: 240328408785751985}
   - {fileID: 240328408785751986}
+  - {fileID: 2580521769124343220}
+  _remoteLayerName: RemotePlayer
 --- !u!114 &-4878049212353512326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,7 +319,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: 0, y: 1, z: 0}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 2
@@ -399,6 +403,42 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &2580521769124343220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240328408775715016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de9b6843f21f1843b98cff9c113dc93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Weapon:
+    Name: WeaponName
+    Damage: 50
+    Range: 100
+  _camera: {fileID: 240328408785751985}
+  _mask:
+    serializedVersion: 2
+    m_Bits: 567
+--- !u!114 &7671820510072707472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240328408775715016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b55798450e4f004ea33981c9d656eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _disableOnDeath:
+  - {fileID: 240328408775715021}
+  - {fileID: 2580521769124343220}
 --- !u!1 &240328408785751996
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +450,7 @@ GameObject:
   - component: {fileID: 240328408785751987}
   - component: {fileID: 240328408785751985}
   - component: {fileID: 240328408785751986}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,7 +532,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 240328408923787501}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -527,7 +567,7 @@ GameObject:
   - component: {fileID: 240328408986005730}
   - component: {fileID: 240328408986005731}
   - component: {fileID: 240328408986005740}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -619,7 +659,7 @@ GameObject:
   - component: {fileID: 240328409725514469}
   - component: {fileID: 240328409725514490}
   - component: {fileID: 240328409725514491}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
