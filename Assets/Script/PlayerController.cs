@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(PlayerMotor))]
 [RequireComponent(typeof(ConfigurableJoint))]
 public class PlayerController : MonoBehaviour
@@ -15,6 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _thrusterForce = 1000f;
 
+    
+
     [Header("Spring Settings")] 
     
     [SerializeField]
@@ -26,25 +29,28 @@ public class PlayerController : MonoBehaviour
 
     private ConfigurableJoint _joint;
 
+    private Animator _animator;
+
     // Start is called before the first frame update
     void Start()
     {
         _motor = GetComponent<PlayerMotor>();
         _joint = GetComponent<ConfigurableJoint>();
+        _animator = GetComponent<Animator>();
         SetJointSettings(_jointSpring);
     }
 
     // Update is called once per frame
     void Update()
     {
-        float xMov = Input.GetAxisRaw("Horizontal");
-        float zMov = Input.GetAxisRaw("Vertical");
+        float xMov = Input.GetAxis("Horizontal");
+        float zMov = Input.GetAxis("Vertical");
 
         Vector3 moveHorizontal = transform.right * xMov;
         Vector3 moveVertical = transform.forward * zMov;
 
         Vector3 velocity = (moveHorizontal + moveVertical).normalized * _speed;
-
+        _animator.SetFloat("ForwardVelocity", zMov);
         _motor.Move(velocity);
 
         float yRot = Input.GetAxisRaw("Mouse X");
