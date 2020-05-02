@@ -238,6 +238,10 @@ MonoBehaviour:
   - {fileID: 1916922588798441464}
   - {fileID: 4131379827201636942}
   _remoteLayerName: RemotePlayer
+  _dontDrawLayerName: DontDraw
+  _playerGraphics: {fileID: 4179425641814004495}
+  _playerUiPrefab: {fileID: 3354091326936761, guid: 75a46762f24b1ed468135fbb70d4e1b5,
+    type: 3}
 --- !u!114 &367091775058871862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4fc1de7aae047a4bf138b9498c9b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Target: {fileID: 4179425641714513407}
+  m_Target: {fileID: 1232114751261142777}
   m_ChildIndex: 0
   m_SendInterval: 0.1
   m_SyncRotationAxis: 1
@@ -514,7 +518,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 823
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

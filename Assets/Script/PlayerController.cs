@@ -84,9 +84,7 @@ public class PlayerController : MonoBehaviour
         _joint.yDrive = new JointDrive
         {
             maximumForce = _jointMaxForce,
-            positionSpring = jointSpring,
-            mode = JointDriveMode.Position
-
+            positionSpring = jointSpring
         };
     }
 }
