@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 
     public MatchSettings MatchSettings;
 
+    [SerializeField]
+    private GameObject _sceneCamera;
+
     private void Awake()
     {
         if (Instance != null)
@@ -17,6 +20,15 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    public void SetSceneCameraActive(bool isActive)
+    {
+        if (_sceneCamera == null)
+        {
+            return;
+        }
+        _sceneCamera.SetActive(isActive);
     }
 
     #region Player Tracking
@@ -36,20 +48,20 @@ public class GameManager : MonoBehaviour
         _players.Remove(name);
     }
 
-    private void OnGUI()
-    {
-        GUILayout.BeginArea(new Rect(200,200,200,500));
-        GUILayout.BeginVertical();
+    //private void OnGUI()
+    //{
+    //    GUILayout.BeginArea(new Rect(200,200,200,500));
+    //    GUILayout.BeginVertical();
 
-        foreach (var player in _players)
-        {
-            GUILayout.Label(player.Key + " - " + player.Value.transform.name);
-        }
+    //    foreach (var player in _players)
+    //    {
+    //        GUILayout.Label(player.Key + " - " + player.Value.transform.name);
+    //    }
 
-        GUILayout.EndVertical();
+    //    GUILayout.EndVertical();
      
-        GUILayout.EndArea();
-    }
+    //    GUILayout.EndArea();
+    //}
 
     public static Player GetPlayer(string playerId)
     {

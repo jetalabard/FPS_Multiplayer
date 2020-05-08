@@ -3,12 +3,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(Player))]
+[RequireComponent(typeof(PlayerController))]
 public class PlayerSetup : NetworkBehaviour
 {
     [SerializeField]
     private Behaviour[] _componentToDisable;
-
-    private Camera _sceneCamera;
 
     [SerializeField]
     private string _remoteLayerName = "RemotePlayer";
@@ -17,8 +16,11 @@ public class PlayerSetup : NetworkBehaviour
 
     [SerializeField] private GameObject _playerGraphics;
 
-    [SerializeField] private GameObject _playerUiPrefab;
-    private GameObject _playerUiInstance;
+    [SerializeField]
+    private GameObject _playerUiPrefab;
+
+    [HideInInspector]
+    public GameObject PlayerUiInstance;
 
     // Start is called before the first frame update
     void Start()
@@ -30,19 +32,22 @@ public class PlayerSetup : NetworkBehaviour
         }
         else
         {
-            _sceneCamera = Camera.main;
-            if (_sceneCamera != null)
-            {
-                _sceneCamera.transform.gameObject.SetActive(false);
-            }
-
             SetLayerRecursively(_playerGraphics, LayerMask.NameToLayer(_dontDrawLayerName));
 
-            _playerUiInstance = Instantiate(_playerUiPrefab);
-            _playerUiInstance.name = _playerUiPrefab.name;
-        }
+            PlayerUiInstance = Instantiate(_playerUiPrefab);
+            PlayerUiInstance.name = _playerUiPrefab.name;
 
-        GetComponent<Player>().Setup();
+            PlayerUi ui = PlayerUiInstance.GetComponent<PlayerUi>();
+            if (ui == null)
+            {
+                Debug.LogError("Problem no compoent playerUi in PlayerUiInstance");
+            }
+            else
+            {
+                ui.SetController(GetComponent<PlayerController>());
+            }
+            GetComponent<Player>().SetupPlayer();
+        }
     }
 
     private void SetLayerRecursively(GameObject playerGraphics, int nameLayer)
@@ -79,12 +84,12 @@ public class PlayerSetup : NetworkBehaviour
 
     private void OnDisable()
     {
-        Destroy(_playerUiInstance);
-        if (_sceneCamera != null)
-        {
-            _sceneCamera.transform.gameObject.SetActive(true);
-        }
+        Destroy(PlayerUiInstance);
 
+        if (isLocalPlayer)
+        {
+            GameManager.Instance.SetSceneCameraActive(true);
+        }
         GameManager.UnRegisterPlayer(transform.name);
     }
 }

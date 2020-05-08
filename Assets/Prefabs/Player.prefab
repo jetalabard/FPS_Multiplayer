@@ -208,7 +208,12 @@ MonoBehaviour:
   _speed: 6
   _lookSensibilityX: 10
   _lookSensibilityY: 6
-  _thrusterForce: 1300
+  _thrusterForce: 1500
+  _thrusterFuelBurnSpeed: 0.6
+  _thrusterFuelRegenSpeed: 0.3
+  _environnementMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   _jointSpring: 12
   _jointMaxForce: 25
 --- !u!114 &3106330172047936798
@@ -268,6 +273,7 @@ MonoBehaviour:
   _playerGraphics: {fileID: 4179425641814004495}
   _playerUiPrefab: {fileID: 3354091326936761, guid: 75a46762f24b1ed468135fbb70d4e1b5,
     type: 3}
+  PlayerUiInstance: {fileID: 0}
 --- !u!114 &367091775058871862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,7 +326,7 @@ ConfigurableJoint:
   m_ConnectedBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
+  m_AutoConfigureConnectedAnchor: 0
   m_ConnectedAnchor: {x: 0, y: 1, z: 0}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
@@ -368,9 +374,9 @@ ConfigurableJoint:
     maximumForce: 3.4028233e+38
   m_YDrive:
     serializedVersion: 3
-    positionSpring: 0
+    positionSpring: 20
     positionDamper: 0
-    maximumForce: 3.4028233e+38
+    maximumForce: 40
   m_ZDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -443,6 +449,13 @@ MonoBehaviour:
   _disableOnDeath:
   - {fileID: 4179425641689748097}
   - {fileID: 1916922588798441464}
+  _disableGameObjectOnDeath:
+  - {fileID: 4179425641814004495}
+  - {fileID: 4179425641714513392}
+  _deathEffect: {fileID: 1873742732146470001, guid: 323750cb30e7376469d7bc0abbabb80f,
+    type: 3}
+  _spawnEffect: {fileID: 4964908604805366939, guid: eaa7aa949afa0e7448b9536e35ea85ef,
+    type: 3}
 --- !u!95 &4131379827201636942
 Animator:
   serializedVersion: 3

@@ -29,7 +29,7 @@ public class PlayerShoot : NetworkBehaviour
     {
         _currentWeapon = _weaponManager.CurrentWeapon;
 
-        if (_currentWeapon.FireRate <= 0)
+        if (_currentWeapon?.FireRate <= 0)
         {
             if (Input.GetButtonDown("Fire1"))
             {

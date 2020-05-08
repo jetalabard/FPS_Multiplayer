@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(PlayerSetup))]
 public class Player : NetworkBehaviour
 {
 
@@ -16,17 +17,49 @@ public class Player : NetworkBehaviour
 
     [SerializeField] private Behaviour[] _disableOnDeath;
 
+    [SerializeField] private GameObject[] _disableGameObjectOnDeath;
+
+    [SerializeField] private GameObject _deathEffect;
+
+    [SerializeField] private GameObject _spawnEffect;
+
     private bool[] _wasEnabled;
 
-    // Start is called before the first frame update
-    public void Setup()
-    {
-        _wasEnabled = new bool[_disableOnDeath.Length];
+    private bool _firstSetup = true;
 
-        for(int i =0; i < _disableOnDeath.Length; i++)
+    // Start is called before the first frame update
+    public void SetupPlayer()
+    {
+        if (isLocalPlayer)
         {
-            _wasEnabled[i] = _disableOnDeath[i].enabled;
+            GameManager.Instance.SetSceneCameraActive(false);
+            GetComponent<PlayerSetup>().PlayerUiInstance.SetActive(true);
         }
+
+        CmdBroadcastNewPlayerSetup();
+    }
+
+    [Command]
+    private void CmdBroadcastNewPlayerSetup()
+    {
+        RpcSetupPlayerOnAllClients();
+    }
+
+    [ClientRpc]
+    private void RpcSetupPlayerOnAllClients()
+    {
+        if (_firstSetup)
+        {
+            _wasEnabled = new bool[_disableOnDeath.Length];
+
+            for (int i = 0; i < _disableOnDeath.Length; i++)
+            {
+                _wasEnabled[i] = _disableOnDeath[i].enabled;
+            }
+
+            _firstSetup = false;
+        }
+       
         SetDefaults();
     }
 
@@ -40,11 +73,25 @@ public class Player : NetworkBehaviour
             _disableOnDeath[i].enabled = _wasEnabled[i];
         }
 
+        foreach (var t in _disableGameObjectOnDeath)
+        {
+            t.SetActive(true);
+        }
+
+        if (isLocalPlayer)
+        {
+            GameManager.Instance.SetSceneCameraActive(false);
+            GetComponent<PlayerSetup>().PlayerUiInstance.SetActive(true);
+        }
+
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
             col.enabled = true;
         }
+
+        GameObject _gfxInstantiate = Instantiate(_spawnEffect, transform.position, Quaternion.identity);
+        Destroy(_gfxInstantiate, 3f);
     }
 
     [ClientRpc]
@@ -64,26 +111,30 @@ public class Player : NetworkBehaviour
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(GameManager.Instance.MatchSettings.RespawnTime);
-        SetDefaults();
+       
         Transform spawnPoint = NetworkManager.singleton.GetStartPosition();
         transform.position = spawnPoint.position;
         transform.rotation = spawnPoint.rotation;
 
+        yield return new WaitForSeconds(0.2f);
+
+        SetupPlayer();
+
         Debug.Log(transform.name + " has respawn");
     }
 
-    //private void Update()
-    //{
-    //    if (!isLocalPlayer)
-    //    {
-    //        return;
-    //    }
+    private void Update()
+    {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
 
-    //    if (Input.GetKeyDown(KeyCode.K))
-    //    {
-    //        RpcTakeDamage(999);
-    //    }
-    //}
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            RpcTakeDamage(999);
+        }
+    }
 
     private void Die()
     {
@@ -96,11 +147,19 @@ public class Player : NetworkBehaviour
             t.enabled = false;
         }
 
+        foreach (var t in _disableGameObjectOnDeath)
+        {
+            t.SetActive(false);
+        }
+
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
             col.enabled = false;
         }
+
+        GameObject _gfxInstantiate = Instantiate(_deathEffect, transform.position, Quaternion.identity);
+        Destroy(_gfxInstantiate, 3f);
 
         StartCoroutine(Respawn());
     }
