@@ -47,6 +47,8 @@ public class PlayerSetup : NetworkBehaviour
                 ui.SetPlayer(GetComponent<Player>());
             }
             GetComponent<Player>().SetupPlayer();
+
+            CmdSetUsername(transform.name, UserAccountManager.LoggedIn_Username);
         }
     }
 
@@ -65,9 +67,20 @@ public class PlayerSetup : NetworkBehaviour
         base.OnStartClient();
         string netId = Convert.ToString(GetComponent<NetworkIdentity>().netId);
         Player player = GetComponent<Player>();
+        player.UserName = UserAccountManager.LoggedIn_Username;
         GameManager.RegisterPlayer(netId, player);
     }
 
+    [Command]
+    void CmdSetUsername(string playerID, string username)
+    {
+        Player player = GameManager.GetPlayer(playerID);
+        if (player != null)
+        {
+            Debug.Log(username + " has joined !");
+            player.UserName = username;
+        }
+    }
 
     private void AssignRemoteLayer()
     {

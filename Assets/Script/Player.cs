@@ -7,8 +7,9 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(PlayerSetup))]
 public class Player : NetworkBehaviour
 {
-
     public bool IsDead { get; private set; }
+
+    public string UserName { get; set; }
 
     [SerializeField] private float _maxHealth = 100f;
 
