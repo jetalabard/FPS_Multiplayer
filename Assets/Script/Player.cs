@@ -15,6 +15,11 @@ public class Player : NetworkBehaviour
     [SyncVar]
     private float _currentHealth;
 
+    public float GetHealthPourcentage()
+    {
+        return _currentHealth / _maxHealth;
+    }
+
     [SerializeField] private Behaviour[] _disableOnDeath;
 
     [SerializeField] private GameObject[] _disableGameObjectOnDeath;

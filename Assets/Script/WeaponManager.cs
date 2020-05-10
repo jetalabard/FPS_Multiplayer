@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,6 +17,8 @@ public class WeaponManager : NetworkBehaviour
 
 
     public PlayerWeapon CurrentWeapon { get; private set; }
+
+    public bool IsReloading = false;
 
     void Start()
     {
@@ -37,5 +41,44 @@ public class WeaponManager : NetworkBehaviour
        {
            Util.SetLayerRecursively(weaponInstance, LayerMask.NameToLayer(_weaponLayerName));
        }
+    }
+
+    public void Reload()
+    {
+        if (IsReloading)
+        {
+            return;
+        }
+
+        StartCoroutine(ReloadCoroutine());
+    }
+
+    public IEnumerator ReloadCoroutine()
+    {
+        IsReloading = true;
+
+        CmdOnReload();
+
+        yield return new WaitForSeconds(CurrentWeapon.ReloadTime);
+
+        CurrentWeapon.Bullets = CurrentWeapon.MaxBullet;
+
+        IsReloading = false;
+    }
+
+    [Command]
+    void CmdOnReload()
+    {
+        RpcOnReload();
+    }
+
+    [ClientRpc]
+    private void RpcOnReload()
+    {
+        Animator anim = CurrentGraphics.GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.SetTrigger("Reload");
+        }
     }
 }

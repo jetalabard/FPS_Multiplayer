@@ -45,6 +45,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MuzzleFlash: {fileID: 476298712483927420}
   HitEffectPrefab: {fileID: 100006, guid: ccbcfc705a39717429590a9f247ec30a, type: 3}
+--- !u!95 &946395267937884466
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8217353225838295059}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5963fa02cf5f36546af54d59c6856d24, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &7101770803031794370
 PrefabInstance:
   m_ObjectHideFlags: 0

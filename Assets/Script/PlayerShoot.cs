@@ -31,8 +31,14 @@ public class PlayerShoot : NetworkBehaviour
         {
             return;
         }
-
         _currentWeapon = _weaponManager.CurrentWeapon;
+
+        if (Input.GetKeyDown(KeyCode.R) && _currentWeapon.Bullets != _currentWeapon.MaxBullet)
+        {
+            _weaponManager.Reload();
+            return;
+        }
+
 
         if (_currentWeapon?.FireRate <= 0)
         {
@@ -84,8 +90,17 @@ public class PlayerShoot : NetworkBehaviour
     [Client]
     private void Shoot()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && !_weaponManager.IsReloading)
         {
+            _currentWeapon.Bullets--;
+
+            if (_currentWeapon.Bullets <= 0)
+            {
+                _weaponManager.Reload();
+                return;
+            }
+
+
             CmdOnShoot();
             RaycastHit hit;
             if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, _currentWeapon.Range, _mask))
@@ -95,9 +110,9 @@ public class PlayerShoot : NetworkBehaviour
                 {
                     CmdPlayerShot(hit.collider.name, _currentWeapon.Damage);
                 }
-            }
 
-            CmdOnHit(hit.point, hit.normal);
+                CmdOnHit(hit.point, hit.normal);
+            }
         }
     }
 

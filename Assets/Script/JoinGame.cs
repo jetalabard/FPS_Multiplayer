@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
@@ -34,7 +32,10 @@ public class JoinGame : MonoBehaviour
     public void RefreshRoomList()
     {
         ClearRoomList();
-
+        if (_networkManager.matchMaker == null)
+        {
+            _networkManager.StartMatchMaker();
+        }
         _networkManager.matchMaker.ListMatches(0, 20, string.Empty, false, 0, 0, OnMatchList);
         _status.text = "Refreshing...";
     }
@@ -70,8 +71,34 @@ public class JoinGame : MonoBehaviour
     {
         _networkManager.matchMaker.JoinMatch(match.networkId, string.Empty, string.Empty, string.Empty, 0, 0,
             _networkManager.OnMatchJoined);
+        StartCoroutine(WaitForJoin());
+    }
+
+    IEnumerator WaitForJoin()
+    {
         ClearRoomList();
-        _status.text = "Joining...";
+       
+        int countDown = 10;
+        while (countDown > 0)
+        {
+            _status.text = "Joining... ("+ countDown + ")";
+            yield return new WaitForSeconds(1);
+            countDown--;
+        }
+
+        _status.text = "Failed to connect";
+        yield return new WaitForSeconds(2);
+
+        MatchInfo matchInfo = _networkManager.matchInfo;
+        if (matchInfo != null)
+        {
+            _networkManager.matchMaker.DropConnection(matchInfo.networkId, matchInfo.nodeId, 0,
+                _networkManager.OnDropConnection);
+            _networkManager.StopHost();
+        }
+        
+
+        RefreshRoomList();
     }
 
     private void ClearRoomList()
@@ -82,11 +109,5 @@ public class JoinGame : MonoBehaviour
         }
 
         roomList.Clear();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

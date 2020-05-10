@@ -116,13 +116,13 @@ GameObject:
   - component: {fileID: 4179425641689748099}
   - component: {fileID: 4179425641689748111}
   - component: {fileID: 4179425641689748096}
+  - component: {fileID: 1916922588798441464}
   - component: {fileID: 4179425641689748097}
   - component: {fileID: 3106330172047936798}
   - component: {fileID: 3071569688724043973}
   - component: {fileID: 367091775058871862}
   - component: {fileID: 2569519999240473032}
   - component: {fileID: 7760944656597090205}
-  - component: {fileID: 1916922588798441464}
   - component: {fileID: 5990442860642690012}
   - component: {fileID: 4131379827201636942}
   - component: {fileID: 9009997538959878084}
@@ -193,6 +193,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraRotationLimit: 85
   _camera: {fileID: 4179425641714513405}
+--- !u!114 &1916922588798441464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4179425641689748100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de9b6843f21f1843b98cff9c113dc93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 4179425641714513405}
+  _mask:
+    serializedVersion: 2
+    m_Bits: 567
+  _currentWeapon:
+    Name: WeaponName
+    Damage: 10
+    Range: 100
+    Graphics: {fileID: 0}
+    FireRate: 0
+    ReloadTime: 1
+    MaxBullet: 20
+    Bullets: 20
 --- !u!114 &4179425641689748097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,28 +436,6 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &1916922588798441464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4179425641689748100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9de9b6843f21f1843b98cff9c113dc93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _camera: {fileID: 4179425641714513405}
-  _mask:
-    serializedVersion: 2
-    m_Bits: 567
-  _currentWeapon:
-    Name: WeaponName
-    Damage: 10
-    Range: 100
-    Graphics: {fileID: 0}
-    FireRate: 0
 --- !u!114 &5990442860642690012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,8 +517,12 @@ MonoBehaviour:
     Graphics: {fileID: 8217353225838295059, guid: 0c4d783c791bd5946a60a7d4cfc1bc16,
       type: 3}
     FireRate: 10
+    ReloadTime: 1
+    MaxBullet: 20
+    Bullets: 20
   _weaponHolder: {fileID: 6892471709229743899}
   _weaponLayerName: Weapon
+  IsReloading: 0
 --- !u!1 &4179425641714513392
 GameObject:
   m_ObjectHideFlags: 0
