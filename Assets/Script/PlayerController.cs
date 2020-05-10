@@ -50,6 +50,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseMenu.isOn)
+        {
+            return;
+        }
+
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 100f, _environnementMask))
         {
