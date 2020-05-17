@@ -16,6 +16,8 @@ public class JoinGame : MonoBehaviour
 
     [SerializeField] private Transform _roomListParent;
 
+    public string UserName { get; set; }
+
     private NetworkManager _networkManager;
     // Start is called before the first frame update
     void Start()

@@ -10,6 +10,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject _sceneCamera;
 
+    public delegate void PlayerKilledCallback(string player);
+    public PlayerKilledCallback OnPlayerKilledCallback;
+
+    public delegate void PlayerConnectedCallback(string player);
+    public PlayerConnectedCallback OnPlayerConnectedCallback;
+
     private void Awake()
     {
         if (Instance != null)
@@ -36,37 +42,32 @@ public class GameManager : MonoBehaviour
 
     private static Dictionary<string, Player> _players = new Dictionary<string, Player>();
 
-    public static void RegisterPlayer(string netId, Player player)
+    private static Dictionary<string, string> _playersName = new Dictionary<string, string>();
+
+    public static string LocalPlayerName { get; set; }
+
+    public static void RegisterPlayer(string netId, Player player, string name)
     {
         string playerId = PlayerIdPrefix + netId;
         _players.Add(playerId, player);
+        _playersName.Add(playerId, name);
+        player.UserName = name;
         player.transform.name = playerId;
     }
 
-    internal static void UnRegisterPlayer(string name)
+    internal static void UnRegisterPlayer(string id)
     {
-        _players.Remove(name);
+        _playersName.Remove(id);
+        _players.Remove(id);
     }
-
-    //private void OnGUI()
-    //{
-    //    GUILayout.BeginArea(new Rect(200,200,200,500));
-    //    GUILayout.BeginVertical();
-
-    //    foreach (var player in _players)
-    //    {
-    //        GUILayout.Label(player.Key + " - " + player.Value.transform.name);
-    //    }
-
-    //    GUILayout.EndVertical();
-     
-    //    GUILayout.EndArea();
-    //}
 
     public static Player GetPlayer(string playerId)
     {
         return _players[playerId];
     }
-
-#endregion
+    public static string GetPlayerName(string playerId)
+    {
+        return _playersName[playerId];
+    }
+    #endregion
 }

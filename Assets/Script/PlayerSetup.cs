@@ -48,7 +48,7 @@ public class PlayerSetup : NetworkBehaviour
             }
             GetComponent<Player>().SetupPlayer();
 
-            CmdSetUsername(transform.name, UserAccountManager.LoggedIn_Username);
+            CmdSetUsername(transform.name, GameManager.LocalPlayerName);
         }
     }
 
@@ -67,14 +67,15 @@ public class PlayerSetup : NetworkBehaviour
         base.OnStartClient();
         string netId = Convert.ToString(GetComponent<NetworkIdentity>().netId);
         Player player = GetComponent<Player>();
-        player.UserName = UserAccountManager.LoggedIn_Username;
-        GameManager.RegisterPlayer(netId, player);
+        GameManager.RegisterPlayer(netId, player,
+            !string.IsNullOrEmpty(player.UserName) ? player.UserName : GameManager.LocalPlayerName);
+        GameManager.Instance.OnPlayerConnectedCallback.Invoke(!string.IsNullOrEmpty(player.UserName) ? player.UserName : GameManager.LocalPlayerName);
     }
 
     [Command]
-    void CmdSetUsername(string playerID, string username)
+    void CmdSetUsername(string playerId, string username)
     {
-        Player player = GameManager.GetPlayer(playerID);
+        Player player = GameManager.GetPlayer(playerId);
         if (player != null)
         {
             Debug.Log(username + " has joined !");

@@ -8,9 +8,9 @@ public class PlayerNameSet : MonoBehaviour
     void Start()
     {
         _textUserName.text = "Welcome ";
-        if (!string.IsNullOrEmpty(UserAccountManager.LoggedIn_Username))
+        if (!string.IsNullOrEmpty(GameManager.LocalPlayerName))
         {
-            _textUserName.text += UserAccountManager.LoggedIn_Username;
+            _textUserName.text += GameManager.LocalPlayerName;
         }
     }
 }

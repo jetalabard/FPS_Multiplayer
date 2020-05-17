@@ -14,7 +14,7 @@ public class PlayerNameDefinition : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(_textUserName.text))
         {
-            UserAccountManager.LoggedIn_Username = _textUserName.text;
+            GameManager.LocalPlayerName = _textUserName.text;
             SceneManager.LoadScene("Lobby");
         }
         else

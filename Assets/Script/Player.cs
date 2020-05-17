@@ -128,23 +128,13 @@ public class Player : NetworkBehaviour
 
         Debug.Log(transform.name + " has respawn");
     }
-
-    private void Update()
-    {
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            RpcTakeDamage(999);
-        }
-    }
-
+    
     private void Die()
     {
         IsDead = true;
+
+        GameManager.Instance.OnPlayerKilledCallback.Invoke(UserName);
+
 
         Debug.Log(transform.name + " is dead");
 
