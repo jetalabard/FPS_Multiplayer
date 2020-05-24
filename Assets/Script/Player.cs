@@ -13,7 +13,6 @@ public class Player : NetworkBehaviour
 
     [SerializeField] private float _maxHealth = 100f;
 
-    [SyncVar]
     private float _currentHealth;
 
     public float GetHealthPourcentage()
@@ -84,12 +83,6 @@ public class Player : NetworkBehaviour
             t.SetActive(true);
         }
 
-        if (isLocalPlayer)
-        {
-            GameManager.Instance.SetSceneCameraActive(false);
-            GetComponent<PlayerSetup>().PlayerUiInstance.SetActive(true);
-        }
-
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
@@ -156,6 +149,12 @@ public class Player : NetworkBehaviour
 
         GameObject _gfxInstantiate = Instantiate(_deathEffect, transform.position, Quaternion.identity);
         Destroy(_gfxInstantiate, 3f);
+
+        if (isLocalPlayer)
+        {
+            GameManager.Instance.SetSceneCameraActive(true);
+            GetComponent<PlayerSetup>().PlayerUiInstance.SetActive(false);
+        }
 
         StartCoroutine(Respawn());
     }

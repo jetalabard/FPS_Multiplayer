@@ -31,6 +31,20 @@ public class JoinGame : MonoBehaviour
         RefreshRoomList();
     }
 
+    void Update()
+    {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            _status.text = "Check internet connection!";
+            _status.color = Color.red;
+        }
+        else if (_status.color == Color.red && Application.internetReachability != NetworkReachability.NotReachable)
+        {
+            _status.color = Color.white;
+            RefreshRoomList();
+        }
+    }
+
     public void RefreshRoomList()
     {
         ClearRoomList();
