@@ -45,3 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatchSettings:
     RespawnTime: 3
+  _sceneCamera: {fileID: 3164453501325654085, guid: 67d200a267f5b4443a1bf0416de4eb08,
+    type: 3}

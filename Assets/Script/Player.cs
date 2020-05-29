@@ -7,12 +7,19 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(PlayerSetup))]
 public class Player : NetworkBehaviour
 {
-    public bool IsDead { get; private set; }
+    [SyncVar]
+    private bool _isDead = false;
+    public bool IsDead
+    {
+        get { return _isDead; }
+        protected set { _isDead = value; }
+    }
 
     public string UserName { get; set; }
 
     [SerializeField] private float _maxHealth = 100f;
 
+    [SyncVar]
     private float _currentHealth;
 
     public float GetHealthPourcentage()
@@ -70,7 +77,7 @@ public class Player : NetworkBehaviour
 
     public void SetDefaults()
     {
-        IsDead = false;
+        _isDead = false;
         _currentHealth = _maxHealth;
 
         for (int i = 0; i < _disableOnDeath.Length; i++)
@@ -96,7 +103,7 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     internal void RpcTakeDamage(float weaponDamage)
     {
-        if (!IsDead)
+        if (!_isDead)
         {
             _currentHealth -= weaponDamage;
             Debug.Log(transform.name + " : " + _currentHealth + " pv");
@@ -115,7 +122,7 @@ public class Player : NetworkBehaviour
         transform.position = spawnPoint.position;
         transform.rotation = spawnPoint.rotation;
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
 
         SetupPlayer();
 
@@ -124,7 +131,7 @@ public class Player : NetworkBehaviour
     
     private void Die()
     {
-        IsDead = true;
+        _isDead = true;
 
         GameManager.Instance.OnPlayerKilledCallback.Invoke(UserName);
 
