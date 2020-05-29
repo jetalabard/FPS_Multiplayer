@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
             _motor.Move(Vector3.zero);
             _motor.Rotation(Vector3.zero);
-            _motor.RotationCamera(0);
+            _motor.RotationCamera(0f);
             _motor.ApplyThruster(Vector3.zero);
 
             return;
